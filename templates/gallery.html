@@ -5,8 +5,8 @@
     <style>
         .gallery-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
         }
 
         .gallery-item img {
@@ -20,14 +20,16 @@
 <body>
     <div class="container my-4">
         <h1 class="fs-2 text" align="center">Gallery</h1>
-    </div>
-    <div class="gallery-container">
+        
+        <div class="gallery-container">
         {% for hist in hists %}
         <div class="gallery-item">
             <img src="{{ hist }}" alt="{{ hist }}">
         </div>
         {% endfor %}
     </div>
+    </div>
+    
 </body>
 
 {% endblock %}

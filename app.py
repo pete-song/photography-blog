@@ -21,11 +21,11 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 mysql = MySQL(app)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
 
-@app.route('/gallery', methods=['GET', 'POST'])
+@app.route('/gallery', methods=['GET'])
 def gallery():
     basepath = f"static/image-post"
     dir = os.walk(basepath)
@@ -37,7 +37,7 @@ def gallery():
             file_list.append(temp)
     return render_template('gallery.html', hists=file_list)
 
-@app.route('/about', methods=['GET', 'POST'])
+@app.route('/about', methods=['GET'])
 def about():
     return render_template('about.html')
 
@@ -51,19 +51,22 @@ def admin():
         if 'file' not in request.files:
             flash('No file part', 'error')
             return redirect('/admin')
-        file = request.files['file']
-        if file.filename == '':
-            flash('No selected file', 'error')
-            return redirect('/admin')
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            flash(f"Successfully uploaded image(s)")
-            return redirect('/admin')
-        else:
-            flash('Incorrect file type. Allowed types: jpg, jpeg, crp', 'error')
-            return redirect('/admin')
-    return render_template('/admin/admin.html')
+        files = request.files.getlist('file')
+
+        for file in files:
+            if file.filename == '':
+                flash('No selected file', 'error')
+                return redirect('/admin')
+            elif file and not allowed_file(file.filename):
+                flash('Incorrect file type. Allowed types: jpg, jpeg, crp', 'error')
+                return redirect('/admin')
+            elif file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        flash(f"Successfully uploaded image(s)")
+        return redirect('/admin')
+    else:
+        return render_template('/admin/admin.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
