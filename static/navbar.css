@@ -1,3 +1,13 @@
-.navbar-brand {
-    font: bold 3em Arial, Helvetica, sans-serif;
+/* Keep the navbar at the top of the webpage */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999; /* Set a high z-index to ensure it stays on top of other elements */
+}
+
+/* Adjust the font size for the navbar brand */
+.navbar-brand a {
+    font-size: 16px; /* Change the font size as needed */
 }

@@ -1,0 +1,48 @@
+/* Add the following styles to make .slide the whole height of the screen */
+body {
+    margin: 0;
+    background-color: rgb(95, 110, 14);
+    color: #fff;
+    overflow-y: auto; /* Enable vertical scrolling for the body */
+}
+
+.slide-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the container is at least the height of the viewport */
+}
+
+.slide {
+    flex: 1; /* Make each slide take all available vertical space */
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* Center the content vertically within .slide */
+    justify-content: center; /* Center the content vertically within .slide */
+}
+
+.gallery-slide {
+    flex: 1; /* Make the gallery-slide take all available vertical space */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(0, 0, 0);
+}
+
+.gallery-slide img {
+    max-width: 100%; /* Ensure the image doesn't overflow its container */
+    height: auto; /* Maintain aspect ratio of the image */
+}
+
+.memory {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    max-width: 600px;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.memory h1,
+.memory p {
+    margin: 10px 0;
+}
