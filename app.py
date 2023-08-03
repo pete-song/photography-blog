@@ -9,6 +9,7 @@ UPLOAD_FOLDER = 'static/image-post'
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'crp', 'txt'}
 
 app = Flask(__name__)
+app.secret_key = 'super secret key'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 cred = yaml.load(open('cred.yaml'), Loader=yaml.Loader)
@@ -39,25 +40,22 @@ def allowed_file(filename):
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     if request.method == "POST":
-        # check if the post request has the file part
         if 'file' not in request.files:
-            flash('No file part')
-            return "error"
+            flash('No file part', 'error')
+            return redirect('/admin')
         file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
         if file.filename == '':
-            flash('No selected file')
-            return "error: no selected file"
+            flash('No selected file', 'error')
+            return redirect('/admin')
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            # ProcessImage
-            return render_template('gallery.html')
-    return render_template('admin/admin.html')
-
-
-
+            flash(f"Successfully uploaded image(s)")
+            return redirect('/admin')
+        else:
+            flash('Incorrect file type. Allowed types: jpg, jpeg, crp, txt', 'error')
+            return redirect('/admin')
+    return render_template('/admin/admin.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

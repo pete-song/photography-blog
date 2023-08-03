@@ -1,21 +1,38 @@
 {% extends 'base.html' %}
 {% block content %}
+<body>
+    <div class="container my-4">
 
-<div class="container my-4">
+        {% with errors = get_flashed_messages(category_filter=["error"]) %}
+            {% if errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Warning!</strong> {{ errors[0] }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% else %}
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Success!</strong> {{ messages[0] }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+        {% endwith %}
 
-    <h1 class="fs-2 text">Welcome Boss, what's the post for today?</h1>
+        <h1 class="fs-2 text">Welcome Boss, what's the post for today?</h1>
 
-    <form action="/admin" method="POST" enctype="multipart/form-data">
-        <div class="mb-3">
-            <label for="formFileMultiple" class="form-label">Upload a Post</label>
-            <input class="form-control" type="file" name="file" id="formFileMultiple" multiple>
-        </div>
-        <div class="mb-3">
-            <button type="submit" class="btn btn-success">Submit</button>
-        </div>
-    </form>
-    
-</div>
-
-
+        <form action="/admin" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="formFileMultiple" class="form-label">Upload a Post</label>
+                <input class="form-control" type="file" name="file" id="formFileMultiple" multiple>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+        </form>
+        
+    </div>
+</body>
 {% endblock %}
