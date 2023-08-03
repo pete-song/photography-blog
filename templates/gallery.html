@@ -4,25 +4,53 @@
 <head>
     <style>
         .gallery-container {
-            -webkit-column-count: 4; /* Number of columns */
-            -moz-column-count: 4;
-            column-count: 4;
-            -webkit-column-gap: 30px; /* Gap between columns */
-            -moz-column-gap: 30px;
             column-gap: 30px;
         }
 
         .gallery-item {
             display: inline-block;
-            width: 100%; /* Set a 100% width for the gallery item to occupy full column width */
-            margin-bottom: 30px; /* Add some space between items */
+            width: 100%;
+            margin-bottom: 30px;
         }
 
         .gallery-item img {
             width: 100%;
-            height: auto; /* Allow images to adjust their height while maintaining aspect ratio */
-            object-fit: cover; /* Maintain aspect ratio */
-            display: block; /* Remove any extra spacing between images */
+            height: auto;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Media queries to adjust number of columns based on screen width */
+        @media (min-width: 1200px) {
+            .gallery-container {
+                -webkit-column-count: 4;
+                -moz-column-count: 4;
+                column-count: 4;
+            }
+        }
+
+        @media (max-width: 1199px) and (min-width: 992px) {
+            .gallery-container {
+                -webkit-column-count: 3;
+                -moz-column-count: 3;
+                column-count: 3;
+            }
+        }
+
+        @media (max-width: 991px) and (min-width: 768px) {
+            .gallery-container {
+                -webkit-column-count: 2;
+                -moz-column-count: 2;
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .gallery-container {
+                -webkit-column-count: 1;
+                -moz-column-count: 1;
+                column-count: 1;
+            }
         }
     </style>
 </head>
@@ -30,16 +58,16 @@
 <body>
     <div class="container my-4">
         <h1 class="fs-2 text" align="center">Gallery</h1>
-        
+
         <div class="gallery-container">
-        {% for hist in hists %}
-        <div class="gallery-item">
-            <img src="{{ hist }}" alt="{{ hist }}">
+            {% for hist in hists %}
+            <div class="gallery-item">
+                <img src="{{ hist }}" alt="{{ hist }}">
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
-    </div>
-    
+
 </body>
 
 {% endblock %}
