@@ -6,7 +6,7 @@ from flask_mysqldb import MySQL
 import yaml
 
 UPLOAD_FOLDER = 'static/image-post'
-ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'crp', 'txt'}
+ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'crp'}
 
 app = Flask(__name__)
 app.secret_key = 'super secret key'
@@ -27,7 +27,15 @@ def index():
 
 @app.route('/gallery', methods=['GET', 'POST'])
 def gallery():
-    return render_template('gallery.html')
+    basepath = f"static/image-post"
+    dir = os.walk(basepath)
+    file_list = []
+
+    for path, subdirs, files in dir:
+        for file in files:
+            temp = os.path.join(path, file)
+            file_list.append(temp)
+    return render_template('gallery.html', hists=file_list)
 
 @app.route('/about', methods=['GET', 'POST'])
 def about():
@@ -53,7 +61,7 @@ def admin():
             flash(f"Successfully uploaded image(s)")
             return redirect('/admin')
         else:
-            flash('Incorrect file type. Allowed types: jpg, jpeg, crp, txt', 'error')
+            flash('Incorrect file type. Allowed types: jpg, jpeg, crp', 'error')
             return redirect('/admin')
     return render_template('/admin/admin.html')
 

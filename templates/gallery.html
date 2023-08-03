@@ -1,11 +1,33 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<head>
+    <style>
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            object-fit: cover; /* Maintain aspect ratio */
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+
 <body>
     <div class="container my-4">
-        <h1 class="fs-2 text">Gallery</h1>
+        <h1 class="fs-2 text" align="center">Gallery</h1>
+    </div>
+    <div class="gallery-container">
+        {% for hist in hists %}
+        <div class="gallery-item">
+            <img src="{{ hist }}" alt="{{ hist }}">
+        </div>
+        {% endfor %}
     </div>
 </body>
-
 
 {% endblock %}
